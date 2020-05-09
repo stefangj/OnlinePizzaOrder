@@ -2,12 +2,12 @@
 
 ## Admin role
 ```
-   username: 
-   password:
+   username: admin@admin.com
+   password: AdminIT19@
 ```
 
 ## User role
 ```
-   username: 
-   password:
+   username: user@user.com
+   password: UserIT19@
 ```
