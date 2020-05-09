@@ -1,0 +1,83 @@
+﻿@using PizzaProject.Models;
+
+@{
+    ViewBag.Title = "Shopping Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>
+    <em>Review</em> your cart:
+</h3>
+
+@{ 
+    if (Session["Cart"] != null)
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Pizza</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Selected Amount</th>
+                    <th class="text-center">Subtotal</th>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var cart in (List<Cart>)Session["Cart"])
+                {
+                    <form>
+                        <tr>
+                            <td class="text-center">
+                                @cart.Pizza.Name
+                            </td>
+                            <td class="text-center">
+                                $@(String.Format("{0:N0}", cart.Pizza.Price))
+                            </td>
+                            <td class="text-center">
+                                @cart.Quantity
+                            </td>
+                            <td class="text-center">
+                                $@(String.Format("{0:N0}", cart.Pizza.Price * cart.Quantity))
+                            </td>
+                            <td class="text-center ">
+                                @Html.ActionLink("Remove", "Delete", "ShoppingCart", new { id = cart.Pizza.PizzaId },
+               new { @class = "btn btn-danger", onclick = "confirm ('Are you sure you want to remove this?');" })
+                            </td>
+                        </tr>
+                    </form>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td td colspan="4" class="text-right">
+                        <b>Total</b>
+                    </td>
+                    <td class="text-right" id="cart-total">
+                        @{
+                            List<Cart> temp = (List<Cart>)Session["Cart"];
+                            var total = String.Format("{0:N0}", temp.Sum(x => x.Quantity * x.Pizza.Price));
+                        }
+                        <b>$@total</b>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <div>
+            @Html.ActionLink("Back To Pizza Menu", "Index", "Pizzas", null, new { @class = "btn btn-warning" })
+            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+            {
+            }
+            else
+            {
+                if (Session["Cart"] != null)
+                {
+                    @Html.ActionLink("Checkout", "Checkout", "ShoppingCart", null, new { @class = "btn btn-success col-sm-offset-9" })
+                }
+            }
+        </div>
+    }
+    else {
+        <h2>No Pizzas in your cart!</h2>
+    }
+}

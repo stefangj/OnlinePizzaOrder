@@ -1,0 +1,118 @@
+﻿@using PizzaProject.Models;
+
+@{
+    ViewBag.Title = "Shopping Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var r = new Random();
+    var randomNumber = r.Next(10);
+    Session["rand"] = randomNumber;
+}
+
+<h3>
+    Check Out Shopping Cart
+</h3>
+
+@{
+    if (Session["Cart"] != null)
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="text-center">Pizza</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">Selected Amount</th>
+                    <th class="text-center">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var cart in (List<Cart>)Session["Cart"])
+                {
+                    <form>
+                        <tr>
+                            <td class="text-center">
+                                @cart.Pizza.Name
+                            </td>
+                            <td class="text-center">
+                                $@(String.Format("{0:N0}", cart.Pizza.Price))
+                            </td>
+                            <td class="text-center">
+                                @cart.Quantity
+                            </td>
+                            <td class="text-center">
+                                $@(String.Format("{0:N0}", cart.Pizza.Price * cart.Quantity))
+                            </td>
+                        </tr>
+                    </form>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td td colspan="3" class="text-right">
+                        <b>Total</b>
+                    </td>
+                    <td class="text-center" id="cart-total">
+                        @{
+                            List<Cart> temp = (List<Cart>)Session["Cart"];
+                            var total = String.Format("{0:N0}", temp.Sum(x => x.Quantity * x.Pizza.Price));
+                        }
+                        <b>$@total</b>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+    else
+    {
+        <h2>No Pizzas in your cart!</h2>
+    }
+}
+
+<br />
+@using (Html.BeginForm("ProcessOrder", "ShoppingCart", FormMethod.Post, new { id = "customer-form" }))
+{
+<table>
+
+        <tr>
+            <td colspan="3" style="text-align: center;"><b>Customer's information</b></td>
+        </tr>
+        <tr>
+            <td>First Name</td>
+            <td><input type="text" class="form-control" name="cusName" /></td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input type="text" class="form-control" name="cusLast" /></td>
+        </tr>
+        <tr>
+            <td>Phone Number</td>
+            <td><input type="text" class="form-control" name="cusPhone" /></td>
+        </tr>
+        <tr>
+            <td>Email </td>
+            <td><input type="text" class="form-control" name="cusEmail" /></td>
+        </tr>
+        <tr>
+            <td colspan="3"><input type="submit" class="btn btn-success" value="Process Order" /></td>
+        </tr>
+</table>
+}
+
+<script type="text/javascript">
+    $("#customer-form").validate({
+        rules: {
+            cusName{
+                required: true
+            },
+            cusLast{
+                required: true
+            },
+            cusEmail{
+                required: true
+            },
+            cusPhone{
+                required: true
+            }
+        }
+    });
+</script>

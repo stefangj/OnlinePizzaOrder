@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    var PizzaUrl = "Content/images/pizza.png";
+    var OrderUrl = "Content/images/order.png";
+    var ProfileUrl = "Content/images/login.png";
+}
+
+<div align="center">
+    <h1>Welcome to OrderPizzasOnline!</h1>
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            <img src="@PizzaUrl">
+            <div class="caption">
+                <h3>Here you can find all pizzas that we have</h3>
+            </div>
+            <div>
+                <p class="button">
+                    @Html.ActionLink("Pizza Menu", "Index", "Pizzas", new { area = "" }, new { @class = "btn btn-primary" })
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            <img src="@OrderUrl">
+            <div class="caption">
+                <h3>Here you can find all orders that you made</h3>
+            </div>
+            <div>
+                <p class="button">
+                    @Html.ActionLink("Orders", "Index", "Orders", new { area = "" }, new { @class = "btn btn-primary" })
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            <img src="@ProfileUrl">
+            <div class="caption">
+                <h3>Here you can register or login with existing profile</h3>
+            </div>
+            <div>
+                <p class="button">
+                    @Html.ActionLink("Login", "Login", "Account", new { area = "" }, new { @class = "btn btn-primary" })
+                    &nbsp;
+                    @Html.ActionLink("Register", "Register", "Account", new { area = "" }, new { @class = "btn btn-warning" })
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

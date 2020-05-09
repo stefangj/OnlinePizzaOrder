@@ -1,0 +1,21 @@
+﻿@model IEnumerable<PizzaProject.Models.Pizza>
+
+@{
+    var pageName = "Pizzas Menu";
+    ViewData["Title"] = pageName;
+}
+
+<h2 style="text-align: center;">@pageName</h2>
+
+<hr />
+@if (ViewContext.HttpContext.User.IsInRole("Admin"))
+{
+    @Html.ActionLink("Add New Pizza", "Create", "Pizzas", null, new { @class = "btn btn-primary" })
+    <hr />
+}
+<div id="PizzaSummaryId">
+    @foreach (var pizza in Model)
+    {
+        @Html.Partial("PizzaSummary", pizza)
+    }
+</div>

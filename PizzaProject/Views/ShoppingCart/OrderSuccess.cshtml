@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "OrderSuccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rand = Session["rand"];
+}
+
+<h1>You successfully place an order</h1>
+
+
+<h2>Your order will be ready on counter #@rand</h2>
+
+@Html.ActionLink("Back To Pizza Menu", "Index", "Pizzas", null, new { @class = "btn btn-warning" })
